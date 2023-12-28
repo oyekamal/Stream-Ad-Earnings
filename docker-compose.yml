@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ./app
+      dockerfile: Dockerfile.prod
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - static_volume:/usr/src/app/staticfiles
+      - media_volume:/usr/src/app/media
+    expose:
+      - 8000
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - mqtt
+      - db
+      - redis  # Add dependency on the Redis service
+    ports:
+      - 8000:8000
+
+  db:
+    restart: always
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.prod.db
+
+  celery-worker:
+    container_name: celery-worker
+    depends_on:
+      - db
+      - redis
+    build:
+      context: ./app
+      dockerfile: Dockerfile.prod
+    command: bash -c "celery -A core.celery worker -l info"  # Updated command
+    volumes:
+      - static_volume:/usr/src/app/staticfiles
+      - media_volume:/usr/src/app/media
+    env_file:
+      - ./.env.prod
+
+
+  celery-beat:
+    container_name: celery-beat
+    depends_on:
+      - db
+      - redis
+    build:
+      context: ./app
+      dockerfile: Dockerfile.prod
+    command: bash -c "celery -A core beat -l info"  # Updated command
+    volumes:
+      - static_volume:/usr/src/app/staticfiles
+      - media_volume:/usr/src/app/media
+    env_file:
+      - ./.env.prod
+
+  mqtt:
+    image: eclipse-mosquitto
+    ports:
+      - 1883:1883
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/usr/src/app/staticfiles
+      - media_volume:/usr/src/app/media
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - web
+    restart: always
+
+  redis:  # Define the Redis service
+    image: redis
+    ports:
+      - 6379:6379  # Map the Redis port to the host
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:

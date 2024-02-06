@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="streamit-ad-layer">
+    {% for ad in ads %}
+      <img id="ad-image" src="{{ ad.image.url }}">
+      <div class="qr-code" id="qr-code"></div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+  

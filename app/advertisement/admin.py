@@ -5,4 +5,4 @@ from .models import Advertisement
 
 @admin.register(Advertisement)
 class AdvertisementAdmin(admin.ModelAdmin):
-    list_display = ('id', 'image', 'url', 'duration')
+    list_display = ("id", "image", "url", "duration")

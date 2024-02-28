@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -24,16 +24,12 @@
 <body>
   <div class="container">
     <div id="image-container" class="position-relative">
-    {% for ad in ads %}
+      {% for ad in ads %}
         <a href="{{ ad.url }}">
-            <img src="{{ ad.image.url }}" alt="{{ ad.image.name }}" class="fullscreen-image">
+          <img src="{{ ad.image.url }}" alt="{{ ad.image.name }}" class="fullscreen-image" data-duration="{{ ad.duration }}">
         </a>
-        <p>Duration: {{ ad.duration }}</p>
-        {% comment %} <img src="image1.jpg" alt="Image 1" class="fullscreen-image fade-in">
-      <img src="image2.jpg" alt="Image 2" class="fullscreen-image">
-      <img src="image3.jpg" alt="Image 3" class="fullscreen-image"> {% endcomment %}
-    {% endfor %}
-      </div>
+      {% endfor %}
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVFQWjT9u0V46LJXiI0zC7q6t69tDwtAxzHC2zP1x3yH2xtq6zg" crossorigin="anonymous"></script>
@@ -42,12 +38,37 @@
     let currentImageIndex = 0;
     let intervalId = null;
 
+    // Function to calculate remaining duration for the current image
+    function calculateRemainingDuration(duration) {
+      const startTime = new Date();
+      const currentTime = new Date();
+      const elapsedTime = (currentTime.getTime() - startTime.getTime()) % (duration * 1000); // Convert duration to milliseconds
+      return duration - Math.floor(elapsedTime / 1000);
+    }
+
     function startSlideshow() {
       intervalId = setInterval(() => {
         images[currentImageIndex].classList.remove('fade-in');
         currentImageIndex = (currentImageIndex + 1) % images.length;
-        images[currentImageIndex].classList.add('fade-in');
-      }, 3000); // Adjust the slide duration (in milliseconds) as needed
+
+        // Calculate and set remaining duration for the next image
+        const nextImageDuration = parseInt(images[currentImageIndex].dataset.duration, 10);
+        const remainingDuration = calculateRemainingDuration(nextImageDuration);
+        images[currentImageIndex].dataset.duration = remainingDuration; // Update data attribute
+
+        if (remainingDuration > 0) {
+          // Set interval based on remaining duration for the next image
+          clearInterval(intervalId);
+          intervalId = setInterval(() => {
+            images[currentImageIndex].classList.remove('fade-in');
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            images[currentImageIndex].classList.add('fade-in');
+          }, remainingDuration * 1000); // Convert duration to milliseconds
+        } else {
+          // If duration is over, switch to the next image immediately
+          images[currentImageIndex].classList.add('fade-in');
+        }
+      }, 3000); // Adjust default slide duration (in milliseconds) as needed
     }
 
     startSlideshow();

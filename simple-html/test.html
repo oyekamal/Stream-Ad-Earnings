@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fullscreen Image Slideshow</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <style>
+    .fullscreen-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      opacity: 0; /* Initial opacity for smooth fade-in */
+      transition: opacity 1s ease-in-out; /* Smooth fade-in/out animation */
+    }
+
+    .fade-in {
+      opacity: 1; /* Visible image after fade-in */
+    }
+    
+    #progress-bar {
+      position: fixed;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="image-container" class="position-relative">
+      <img src="image1.jpg" alt="Image 1" class="fullscreen-image fade-in">
+      <img src="image2.jpg" alt="Image 2" class="fullscreen-image">
+      <img src="image3.jpg" alt="Image 3" class="fullscreen-image">
+    </div>
+    <div id="progress-bar" class="progress">
+      <div id="progress-bar-inner" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVFQWjT9u0V46LJXiI0zC7q6t69tDwtAxzHC2zP1x3yH2xtq6zg" crossorigin="anonymous"></script>
+  <script>
+    const images = document.querySelectorAll('.fullscreen-image');
+    let currentImageIndex = 0;
+    let intervalId = null;
+
+    function startSlideshow() {
+      intervalId = setInterval(() => {
+        images[currentImageIndex].classList.remove('fade-in');
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        images[currentImageIndex].classList.add('fade-in');
+        updateProgressBar();
+      }, 3000); // Adjust the slide duration (in milliseconds) as needed
+    }
+
+    function updateProgressBar() {
+      const progress = (currentImageIndex + 1) * 100 / images.length;
+      const progressBar = document.getElementById('progress-bar-inner');
+      progressBar.style.width = progress + '%';
+      progressBar.setAttribute('aria-valuenow', progress);
+    }
+
+    startSlideshow();
+  </script>
+</body>
+</html>

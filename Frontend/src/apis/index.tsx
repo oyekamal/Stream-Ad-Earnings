@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8000/';
+
+//  base url adde
+axios.defaults.baseURL = 'http://127.0.0.1:8000/';
 
 
 export const getUsersAPI = async () => axios.get(`/users`);

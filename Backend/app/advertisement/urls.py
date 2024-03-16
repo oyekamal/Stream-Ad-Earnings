@@ -17,7 +17,7 @@ router.register("ads", AdvertisementViewSet)
 router.register("ads_group", AdvertisementGroupViewSet)
 
 urlpatterns = [
-    path("", views.display_ads, name="display_ads"),
+    # path("", views.display_ads, name="display_ads"),
     path("", include(router.urls)),
 
 ]

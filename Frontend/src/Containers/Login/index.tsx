@@ -19,7 +19,7 @@ export const SignIn = () => {
   const onSubmit = (values: any) => {
     console.log(values);
     const { email, password } = values;
-    dispatch(LoginUser({ email: email, password: password }));
+    dispatch(LoginUser({ username: email, password: password }));
   };
 
   return (

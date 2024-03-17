@@ -2,7 +2,7 @@ import { Col, Row, Typography, Layout, Button, Form, Input } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { LoginUser } from "../../redux/Slice/UserSlice";
+import { LoginUser } from "../../../redux/Slice/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const { Title, Text, Link } = Typography;
@@ -53,13 +53,18 @@ export const SignIn = () => {
               <Form.Item name="password">
                 <Input.Password placeholder="Password" />
               </Form.Item>
-
-              <Form.Item wrapperCol={{ span: 18 }}>
+              <Content style={{ textAlign: "left", marginTop: "20px" }}>
+                <Text> Don't have an account? </Text>
                 <Button
-                  type="primary"
-                  htmlType="submit"
-                  // onClick={() => navigate("/ad-page")}
+                  style={{ padding: "0" }}
+                  onClick={() => navigate("/register")}
+                  type="link"
                 >
+                  Sign up!
+                </Button>
+              </Content>
+              <Form.Item wrapperCol={{ span: 18 }}>
+                <Button type="primary" htmlType="submit">
                   Log in
                   <ArrowRightOutlined />
                 </Button>

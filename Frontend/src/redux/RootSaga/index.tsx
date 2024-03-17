@@ -1,5 +1,5 @@
 import { fork, all } from "redux-saga/effects";
-import userSaga from "../Slice/UserSlice/saga";
+import userSaga from "../Slice/authSlice/saga";
 
 function* rootSaga() {
     yield all([

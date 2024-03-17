@@ -1,21 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export interface UserDetails {
-  username: String;
-  email: String;
-  id: String;
-  password: String;
-}
-
 export interface LoginDetails {
   id: String;
   loading: boolean;
   error: boolean;
 }
+export interface SigninDetails {
+  loading: boolean;
+  error: boolean;
+}
 
 export interface UserState {
-  userDetails: UserDetails;
   loginDetails: LoginDetails;
+  signinDetails: SigninDetails;
 }
 
 export const initialState: UserState = {
@@ -24,11 +21,9 @@ export const initialState: UserState = {
     loading: false,
     error: false,
   },
-  userDetails: {
-    username: "",
-    email: "",
-    id: "",
-    password: "",
+  signinDetails: {
+    loading: false,
+    error: false,
   },
 };
 
@@ -39,36 +34,32 @@ const userSlice = createSlice({
     LoginUser: (state) => {
       state.loginDetails.loading = true;
     },
-    LoginUserFailed: (state) => {
-      state.loginDetails.error = true;
-    },
     LoginUserSuccess: (state, action) => {
       state.loginDetails.id = action.payload;
     },
-    setUserSlice: (state, action) => {
-      state = action.payload;
-      console.log(state);
+    LoginUserFailed: (state) => {
+      state.loginDetails.error = true;
     },
-    changeName: (state, action) => {
-      state.userDetails.username = action.payload;
+    signInUser: (state) => {
+      state.signinDetails.loading = true;
     },
-    changeEmail: (state, action) => {
-      state.userDetails.email = action.payload;
+    signInUserSuccess: (state) => {
+      state.signinDetails.loading = false;
     },
-    changePassword: (state, action) => {
-      state.userDetails.password = action.payload;
+    signInUserFailed: (state) => {
+      state.signinDetails.loading = false;
+      state.loginDetails.error = true;
     },
   },
 });
 
 export const {
-  setUserSlice,
-  changeName,
-  changeEmail,
-  changePassword,
   LoginUser,
   LoginUserFailed,
   LoginUserSuccess,
+  signInUser,
+  signInUserSuccess,
+  signInUserFailed,
 } = userSlice.actions;
 
 export default userSlice.reducer;

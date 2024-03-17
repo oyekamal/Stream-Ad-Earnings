@@ -38,9 +38,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("advertisement.urls")),
     # path("accounts/", include("allauth.urls")),
-    path("api/account/", include("dj_rest_auth.urls")),
-    path('api/registration/', include('dj_rest_auth.registration.urls')),
-    path("api/auth/", include("authentication.urls")),
+    # path("api/account/", include("dj_rest_auth.urls")),
+    # path('api/registration/', include('dj_rest_auth.registration.urls')),
+    path("auth/", include("authentication.urls")),
     re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),

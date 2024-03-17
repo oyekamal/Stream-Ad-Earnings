@@ -3,7 +3,7 @@ import { LoginUserSuccess, LoginUserFailed } from "../UserSlice/index";
 
 export function* loginUser({ payload }: any): any {
 
-  const requestUrl = `http://127.0.0.1:8000/login`;
+  const requestUrl = `http://localhost:8000/auth/login/`;
   try {
     const data = yield call(() =>
       fetch(requestUrl, {

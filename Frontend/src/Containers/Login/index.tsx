@@ -58,7 +58,7 @@ export const SignIn = () => {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  onClick={() => navigate("/ad-page")}
+                  // onClick={() => navigate("/ad-page")}
                 >
                   Log in
                   <ArrowRightOutlined />

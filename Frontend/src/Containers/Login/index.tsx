@@ -2,7 +2,8 @@ import { Col, Row, Typography, Layout, Button, Form, Input } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { LoginUser } from "../../Redux/Slice/UserSlice";
+import { LoginUser } from "../../redux/Slice/UserSlice";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Text, Link } = Typography;
 const { Content } = Layout;
@@ -13,6 +14,7 @@ const { Content } = Layout;
 
 export const SignIn = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = (values: any) => {
     console.log(values);
@@ -53,7 +55,11 @@ export const SignIn = () => {
               </Form.Item>
 
               <Form.Item wrapperCol={{ span: 18 }}>
-                <Button type="primary" htmlType="submit">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() => navigate("/ad-page")}
+                >
                   Log in
                   <ArrowRightOutlined />
                 </Button>

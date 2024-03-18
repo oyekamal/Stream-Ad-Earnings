@@ -5,12 +5,8 @@ from django.conf import settings
 from datetime import datetime
 from rest_framework import generics, mixins
 
-from .models import (
-    Advertisement, AdvertisementGroup
-)
-from .serializers import (
-    AdvertisementSerializer, AdvertisementGroupSerializer
-)
+from .models import Advertisement, AdvertisementGroup
+from .serializers import AdvertisementSerializer, AdvertisementGroupSerializer
 from rest_framework import filters
 from django_filters import rest_framework as drf_filters
 from rest_framework.viewsets import ModelViewSet
@@ -18,6 +14,7 @@ from rest_framework.pagination import PageNumberPagination, LimitOffsetPaginatio
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
+
 # Import the custom permission class
 from .permissions import IsOwnerOrReadOnly, AdvertisementGroupPermission
 from rest_framework import status
@@ -45,7 +42,7 @@ class AdvertisementViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["group", "user"]
     search_fields = ["group", "user"]
-    
+
     def get_queryset(self):
         """
         Overrides the default queryset to filter only by the authenticated user's Advertisement.
@@ -80,7 +77,10 @@ class AdvertisementGroupViewSet(ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
-        return Response({'message': 'Advertisement group deleted successfully'}, status=status.HTTP_200_OK)
+        return Response(
+            {"message": "Advertisement group deleted successfully"},
+            status=status.HTTP_200_OK,
+        )
 
     def perform_destroy(self, instance):
         instance.delete()

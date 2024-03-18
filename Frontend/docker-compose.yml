@@ -1,9 +1,24 @@
 version: '3.8'
 
 services:
- react-app:
-    build: .
-    ports:
-      - "5173:5173"
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+  traefik:
+      image: traefik:v2.10
+      command:
+        - "--api.insecure=true"
+        - "--providers.docker=true"
+        - "--entrypoints.web.address=:80"
+      ports:
+        - "80:80"
+        - "8080:8080" # For Traefik dashboard
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+
+  react-app:
+      build: .
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.react-app.rule=Host(`localhost`)"
+        - "traefik.http.routers.react-app.entrypoints=web"
+      environment:
+        - CHOKIDAR_USEPOLLING=true
+

@@ -3,7 +3,10 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
 from django.http import HttpResponseRedirect
 
-from core.settings import EMAIL_CONFIRM_REDIRECT_BASE_URL, PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL
+from core.settings import (
+    EMAIL_CONFIRM_REDIRECT_BASE_URL,
+    PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL,
+)
 from dj_rest_auth.registration.views import RegisterView
 from rest_framework.response import Response
 
@@ -33,5 +36,7 @@ class CustomRegisterView(RegisterView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(
-            {"details": "User created. Please verifiy E-mail."}, status=201, headers=headers
+            {"detail": "User created. Please verifiy E-mail."},
+            status=201,
+            headers=headers,
         )

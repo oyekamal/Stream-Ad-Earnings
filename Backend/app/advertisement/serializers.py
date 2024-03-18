@@ -11,6 +11,12 @@ class AdvertisementSerializer(serializers.ModelSerializer):
 
 
 class AdvertisementGroupSerializer(serializers.ModelSerializer):
+    advertisement = serializers.SerializerMethodField()
+    
+    def get_advertisement(self, obj):
+        ads = Advertisement.objects.filter(group=obj)
+        serializer = AdvertisementSerializer(ads, many=True)
+        return serializer.data
 
     class Meta:
         model = AdvertisementGroup

@@ -39,12 +39,22 @@ class LimitOffsetPaginationCustom(LimitOffsetPagination):
 
 class AdvertisementViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, AdvertisementGroupPermission]
     queryset = Advertisement.objects.all()
     serializer_class = AdvertisementSerializer
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["group", "user"]
     search_fields = ["group", "user"]
+    
+    def get_queryset(self):
+        """
+        Overrides the default queryset to filter only by the authenticated user's Advertisement.
+        """
+        user = self.request.user
+        if user.is_authenticated:
+            return Advertisement.objects.filter(user=user)
+        # Return no objects if not authenticated
+        return Advertisement.objects.none()
 
 
 class AdvertisementGroupViewSet(ModelViewSet):

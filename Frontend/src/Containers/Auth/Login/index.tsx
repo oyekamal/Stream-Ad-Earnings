@@ -20,6 +20,7 @@ export const SignIn = () => {
     console.log(values);
     const { email, password } = values;
     dispatch(LoginUser({ username: email, password: password }));
+    navigate("/ad-page")
   };
 
   return (

@@ -24,7 +24,7 @@ export function* loginUser({ payload }: any): any {
 
 export function* signupUser({ payload }: any): any {
 
-  const requestUrl = `http://localhost:8000/auth/register/`;
+  const requestUrl = `http://localhost:8000/auth`;
   try {
     const data = yield call(() =>
       fetch(requestUrl, {

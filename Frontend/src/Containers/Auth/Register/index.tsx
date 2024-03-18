@@ -50,7 +50,7 @@ export const SignUp = () => {
         signInUser({
           username: username,
           email: email,
-          password: password,
+          password1: password,
           password2: password,
         })
       );

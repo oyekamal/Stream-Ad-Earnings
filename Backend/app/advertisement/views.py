@@ -6,7 +6,7 @@ from datetime import datetime
 from rest_framework import generics, mixins
 
 from .models import (
-   Advertisement, AdvertisementGroup
+    Advertisement, AdvertisementGroup
 )
 from .serializers import (
     AdvertisementSerializer, AdvertisementGroupSerializer
@@ -18,6 +18,11 @@ from rest_framework.pagination import PageNumberPagination, LimitOffsetPaginatio
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
+# Import the custom permission class
+from .permissions import IsOwnerOrReadOnly, AdvertisementGroupPermission
+from rest_framework import status
+from rest_framework.response import Response
+
 
 class PageNumberPaginationCustom(PageNumberPagination):
     page_size = 10
@@ -44,13 +49,32 @@ class AdvertisementViewSet(ModelViewSet):
 
 class AdvertisementGroupViewSet(ModelViewSet):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, AdvertisementGroupPermission]
     queryset = AdvertisementGroup.objects.all()
     pagination_class = PageNumberPaginationCustom
     serializer_class = AdvertisementGroupSerializer
     filter_backends = [filters.SearchFilter, drf_filters.DjangoFilterBackend]
     filterset_fields = ["name", "user"]
     search_fields = ["name", "user"]
+
+    def get_queryset(self):
+        """
+        Overrides the default queryset to filter only by the authenticated user's AdvertisementGroups.
+        """
+        user = self.request.user
+        if user.is_authenticated:
+            return AdvertisementGroup.objects.filter(user=user)
+        # Return no objects if not authenticated
+        return AdvertisementGroup.objects.none()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({'message': 'Advertisement group deleted successfully'}, status=status.HTTP_200_OK)
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
 
 def display_ads(request):
     current_time = datetime.now().time()

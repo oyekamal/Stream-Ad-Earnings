@@ -33,5 +33,5 @@ class CustomRegisterView(RegisterView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(
-            {"details": "User created. Please verifiy E-mail."}, status=201, headers=headers
+            {"detail": "User created. Please verifiy E-mail."}, status=201, headers=headers
         )

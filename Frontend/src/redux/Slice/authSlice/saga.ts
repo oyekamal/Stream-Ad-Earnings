@@ -37,7 +37,7 @@ export function* signupUser({ payload }: any): any {
     );
     const parsedData = yield data.json();
     yield put(signInUserSuccess());
-    message.success(parsedData?.details)
+    message.success(parsedData?.detail)
   } catch (err) {
     yield put(signInUserFailed());
   }

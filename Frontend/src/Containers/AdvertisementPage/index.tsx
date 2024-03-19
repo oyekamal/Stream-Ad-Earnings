@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Content } from "antd/es/layout/layout";
 import Advertisement from "../../Components/Advertisement";
 import lowerThirdImage from "./images/lowerthird02.png";
+import { useDispatch } from "react-redux";
+import { GetAdsGroups } from "../../redux/Slice/AdSlice";
 
 const AdvertisementPage = () => {
+  const dispatch = useDispatch();
   const dataset = [
     {
       imageUrl:
@@ -39,6 +42,7 @@ const AdvertisementPage = () => {
   }, [dataset]);
 
   useEffect(() => {
+    
     let intervalId: any;
     if (progress < 100) {
       intervalId = setInterval(() => {
@@ -53,6 +57,11 @@ const AdvertisementPage = () => {
 
     return () => clearInterval(intervalId);
   }, [currentEntryIndex, progress]);
+
+  useEffect(() => {
+    console.log("ads_useeffects");
+    dispatch(GetAdsGroups());
+  },[]);
 
   return (
     <Content>

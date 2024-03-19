@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-import { AdsGroupsSuccess, AdsGroups, AdsGroupsFailed } from "./index";
+import { AdsGroupsSuccess, AdsGroupsFailed } from "./index";
 import { message } from "antd";
 
 export function* getAdsGroups({ payload }: any): any {
@@ -22,7 +22,7 @@ export function* getAdsGroups({ payload }: any): any {
 }
 
 function* userSaga() {
-    yield takeEvery("AdsGroups/AdsGroups", getAdsGroups);
+    yield takeEvery("AdsGroups/GetAdsGroups", getAdsGroups);
 }
 
 export default userSaga;

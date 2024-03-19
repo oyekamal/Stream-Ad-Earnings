@@ -35,7 +35,6 @@ const AdsGroupsSlice = createSlice({
     initialState,
     reducers: {
         GetAdsGroups: (state) => {
-            console.log("AdsGroupsDetails.loading");
             state.AdsGroupsDetails.loading = true;
         },
         AdsGroupsSuccess: (state, action) => {

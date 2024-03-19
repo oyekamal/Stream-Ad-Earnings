@@ -17,7 +17,6 @@ export const SignIn = () => {
   const navigate = useNavigate();
 
   const onSubmit = (values: any) => {
-    console.log(values);
     const { email, password } = values;
     dispatch(LoginUser({ username: email, password: password }));
     navigate("/ad-page")

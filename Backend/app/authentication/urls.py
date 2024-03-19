@@ -18,6 +18,7 @@ from authentication.views import (
     password_reset_confirm_redirect,
     GoogleLogin,
     CustomRegisterView,
+    CustomLoginView,
 )
 
 urlpatterns = [
@@ -50,7 +51,8 @@ urlpatterns = [
         PasswordResetConfirmView.as_view(),
         name="password_reset_confirm",
     ),
-    path("login/", LoginView.as_view(), name="rest_login"),
+    # path("login/", LoginView.as_view(), name="rest_login"),
+    path("login/", CustomLoginView.as_view(), name="rest_login"),
     path("logout/", LogoutView.as_view(), name="rest_logout"),
     path("user/", UserDetailsView.as_view(), name="rest_user_details"),
     path("signup/", signup, name="socialaccount_signup"),

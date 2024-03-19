@@ -1,6 +1,7 @@
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
+from dj_rest_auth.views import LoginView
 from django.http import HttpResponseRedirect
 
 from core.settings import (
@@ -9,6 +10,8 @@ from core.settings import (
 )
 from dj_rest_auth.registration.views import RegisterView
 from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
+from rest_framework import status
 
 
 def email_confirm_redirect(request, key):
@@ -39,4 +42,36 @@ class CustomRegisterView(RegisterView):
             {"detail": "User created. Please verifiy E-mail."},
             status=201,
             headers=headers,
+        )
+
+
+class CustomLoginView(LoginView):
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(
+            data=request.data, context={"request": request}
+        )
+        if not serializer.is_valid():
+            return Response(
+                {"detail": f"Fail to login", "error": serializer.errors},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        # serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+        # try:
+        #     user.auth_token.delete()
+        # except:
+        #     pass
+        token, created = Token.objects.get_or_create(user=user)
+        return Response(
+            {
+                "key": token.key,
+                "detail": "Login successful",
+                "email": user.email,
+                "username": user.username,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "id": user.id,
+            },
+            status=status.HTTP_200_OK,
         )

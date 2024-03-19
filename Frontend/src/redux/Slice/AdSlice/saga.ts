@@ -3,7 +3,7 @@ import { AdsGroupsSuccess, AdsGroupsFailed } from "./index";
 import { message } from "antd";
 
 export function* getAdsGroups({ payload }: any): any {
-    console.log("getAdsGroups api..");
+
     const requestUrl = `http://localhost:8000/api/ads_group/`;
     try {
         const data = yield call(() =>
@@ -11,6 +11,8 @@ export function* getAdsGroups({ payload }: any): any {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': `token ${payload.token}`,
+
                 },
             })
         );
@@ -21,8 +23,8 @@ export function* getAdsGroups({ payload }: any): any {
     }
 }
 
-function* userSaga() {
+function* adSaga() {
     yield takeEvery("AdsGroups/GetAdsGroups", getAdsGroups);
 }
 
-export default userSaga;
+export default adSaga;

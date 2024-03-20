@@ -6,6 +6,7 @@ import AdvertisementPage from "../AdvertisementPage";
 import SignUp from "../Auth/Register";
 import NavBar from "../../Components/Navbar";
 import FooterBar from "../../Components/FooterBar";
+import AdGroupComponent from "../../Components/AdGroupComponent";
 
 function Home() {
     return (
@@ -23,6 +24,7 @@ function Home() {
                     <Route index element={<SignIn />} />
                     <Route path="register" element={<SignUp />} />
                     <Route path="usermanagement" element={<AdminPage />} />
+                    <Route path="Ads" element={<AdGroupComponent />} />
                     <Route path="ad-page" element={<AdvertisementPage />} />
                 </Routes>
             </Content>

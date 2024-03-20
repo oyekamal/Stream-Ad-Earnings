@@ -1,18 +1,42 @@
 import React from 'react';
-import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 const { Header } = Layout;
 
-const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
-  key,
-  label: `nav ${key}`,
+// Define your menu items with paths and labels
+const items1 = [
+  {
+    key: '1',
+    label: 'Home',
+    path: '/',
+  },
+  {
+    key: '2',
+    label: 'About',
+    path: '/about',
+  },
+  {
+    key: '3',
+    label: 'Contact',
+    path: '/contact',
+  },
+  {
+    key: '4',
+    label: 'Ads',
+    path: '/Ads',
+  },
+  {
+    key: '5',
+    label: 'Profile',
+    path: '/Profile',
+  },
+].map((item) => ({
+  ...item,
+  label: <Link to={item.path}>{item.label}</Link>, // Wrap label with Link
 }));
 
-
-
 const NavBar: React.FC = () => {
-
   return (
     <Layout>
       <Header style={{ display: 'flex', alignItems: 'center' }}>

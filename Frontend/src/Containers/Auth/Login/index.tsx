@@ -19,7 +19,7 @@ export const SignIn = () => {
   const onSubmit = (values: any) => {
     const { email, password } = values;
     dispatch(LoginUser({ username: email, password: password }));
-    navigate("/ad-page")
+    navigate("/Ads")
   };
 
   return (

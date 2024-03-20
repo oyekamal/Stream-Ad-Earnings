@@ -3,7 +3,7 @@ import { Content } from "antd/es/layout/layout";
 import Advertisement from "../../Components/Advertisement";
 import lowerThirdImage from "./images/lowerthird02.png";
 import { useDispatch, useSelector } from "react-redux";
-import { GetAdsGroups } from "../../redux/Slice/AdSlice";
+import { GetAdsGroups } from "../../redux/Slice/AdGroupSlice";
 
 const AdvertisementPage = () => {
   const dispatch = useDispatch();

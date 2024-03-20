@@ -16,17 +16,16 @@ export interface AdsGroupsDetails {
 export interface AddAdsGroupsDetails {
     loading: boolean;
     error: boolean;
-  }
+}
 
-  export interface EditAdsGroupsDetails {
+export interface EditAdsGroupsDetails {
     loading: boolean;
     error: boolean;
-  }
-
-  export interface DeleteAdsGroupsDetails {
+}
+export interface DeleteAdsGroupsDetails {
     loading: boolean;
     error: boolean;
-  }
+}
 
 
 export interface AdsGroupState {

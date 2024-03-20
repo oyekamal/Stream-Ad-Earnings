@@ -1,4 +1,3 @@
-
 import SignIn from "../Auth/Login";
 import { Content } from "antd/es/layout/layout";
 import { Routes, Route } from "react-router-dom";
@@ -6,11 +5,12 @@ import AdminPage from "../UserManagement";
 import AdvertisementPage from "../AdvertisementPage";
 import SignUp from "../Auth/Register";
 import NavBar from "../../Components/Navbar";
+import FooterBar from "../../Components/FooterBar";
 
 function Home() {
     return (
         <>
-        <NavBar></NavBar>
+            <NavBar/>
             <Content
                 style={{
                     overflowX: "hidden",
@@ -26,6 +26,7 @@ function Home() {
                     <Route path="ad-page" element={<AdvertisementPage />} />
                 </Routes>
             </Content>
+            <FooterBar/>
         </>
     );
 }

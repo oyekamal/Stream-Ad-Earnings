@@ -12,16 +12,6 @@ const items1 = [
     path: '/',
   },
   {
-    key: '2',
-    label: 'About',
-    path: '/about',
-  },
-  {
-    key: '3',
-    label: 'Contact',
-    path: '/contact',
-  },
-  {
     key: '4',
     label: 'Ads',
     path: '/Ads',

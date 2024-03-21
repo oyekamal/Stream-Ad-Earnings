@@ -15,12 +15,20 @@ const { Content } = Layout;
 export const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userInfo = useSelector(
+    (state: any) => state.user.loginDetails.currentUserData
+  );
 
-  const onSubmit = (values: any) => {
+  const onSubmit = async (values: any) => {
     const { email, password } = values;
-    dispatch(LoginUser({ username: email, password: password }));
-    navigate("/Ads")
+    await dispatch(LoginUser({ username: email, password: password }));
   };
+
+  useEffect(() => {
+    if (userInfo.key) {
+      navigate("/Ads");
+    }
+  }, [userInfo]);
 
   return (
     <Content style={{ height: "100vh", background: "white" }}>

@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Content } from "antd/es/layout/layout";
 import { StyledCollapse } from "./styles";
 import Paragraph from "antd/es/typography/Paragraph";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -35,25 +35,10 @@ const AdGroupComponent: React.FC = () => {
   );
 
   useEffect(() => {
-    console.log("profile", profile);
     if (profile.key) {
       dispatch(GetAdsGroups({ token: profile.key }));
     }
   }, [profile]);
-
-  const renderImageText = ({ imageText }) => {
-    if (imageText.split(" ").length > 20) {
-      return (
-        <Tooltip title={imageText}>
-          <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: "more" }}>
-            {imageText}
-          </Paragraph>
-        </Tooltip>
-      );
-    } else {
-      return <span>{imageText}</span>;
-    }
-  };
 
   return (
     <Content style={{ padding: "20px" }}>
@@ -64,6 +49,7 @@ const AdGroupComponent: React.FC = () => {
               header={
                 <div
                   style={{
+                    height: "100%",
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
@@ -76,7 +62,7 @@ const AdGroupComponent: React.FC = () => {
                     <Text>Pause Duration: </Text>
                     <Text strong>{item.pause_duration}</Text>
                   </Space>
-                  <Button onClick={() => navigate("/ad-page")} type="primary">View Ad Group</Button>
+                  <Link to={"/ad-page"} type="primary">View Ad Group</Link>
                 </div>
               }
               key={item.id}

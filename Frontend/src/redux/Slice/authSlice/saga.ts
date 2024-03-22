@@ -6,6 +6,7 @@ import {
   signInUserFailed,
 } from "./index";
 import { message } from "antd";
+import Cookies from "js-cookie";
 
 export function* loginUser({ payload }: any): any {
   const requestUrl = `http://localhost:8000/auth/login/`;
@@ -22,6 +23,7 @@ export function* loginUser({ payload }: any): any {
     const parsedData = yield data.json();
     yield put(LoginUserSuccess(parsedData));
     message.success("Login Successfull");
+    Cookies.set("userData", JSON.stringify(parsedData));
   } catch (err) {
     yield put(LoginUserFailed());
     message.error("Login Failed");

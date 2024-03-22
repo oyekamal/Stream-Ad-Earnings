@@ -1,14 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 export interface currentUserData {
-  key: String,
-  detail: String,
-  email: String,
-  username: String,
-  first_name: String,
-  last_name: String,
-  id: Number
+  key: String;
+  detail: String;
+  email: String;
+  username: String;
+  first_name: String;
+  last_name: String;
+  id: Number;
 }
 export interface LoginDetails {
   currentUserData: currentUserData;
@@ -34,7 +33,7 @@ export const initialState: UserState = {
       username: "",
       first_name: "",
       last_name: "",
-      id: 0
+      id: 0,
     },
     loading: false,
     error: false,
@@ -58,6 +57,17 @@ const userSlice = createSlice({
     LoginUserFailed: (state) => {
       state.loginDetails.error = true;
     },
+    Logout: (state) => {
+      state.loginDetails.currentUserData = {
+        key: "",
+        detail: "",
+        email: "",
+        username: "",
+        first_name: "",
+        last_name: "",
+        id: 0,
+      };
+    },
     signInUser: (state) => {
       state.signinDetails.loading = true;
     },
@@ -75,6 +85,7 @@ export const {
   LoginUser,
   LoginUserFailed,
   LoginUserSuccess,
+  Logout,
   signInUser,
   signInUserSuccess,
   signInUserFailed,

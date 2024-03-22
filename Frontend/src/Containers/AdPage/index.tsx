@@ -9,20 +9,18 @@ import {
   Typography,
   Collapse,
   Tooltip,
+  Image,
 } from "antd";
 import { GetAdsGroups } from "../../redux/Slice/AdGroupSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Content } from "antd/es/layout/layout";
 import { StyledCollapse } from "./styles";
-import Paragraph from "antd/es/typography/Paragraph";
 import { Link, useNavigate } from "react-router-dom";
+import { CurrentAd } from "../../redux/Slice/AdSlice";
 
 const { Option } = Select;
 const { Panel } = Collapse;
 const { Text } = Typography;
-
-
-type ExpandIconPosition = "start" | "end";
 
 const AdGroupComponent: React.FC = () => {
   const navigate = useNavigate();
@@ -39,6 +37,11 @@ const AdGroupComponent: React.FC = () => {
       dispatch(GetAdsGroups({ token: profile.key }));
     }
   }, [profile]);
+
+  const setCurrentAdView = async (item: any) => {
+    await dispatch(CurrentAd({ item: item }));
+    navigate("/ad-page");
+  };
 
   return (
     <Content style={{ padding: "20px" }}>
@@ -62,7 +65,9 @@ const AdGroupComponent: React.FC = () => {
                     <Text>Pause Duration: </Text>
                     <Text strong>{item.pause_duration}</Text>
                   </Space>
-                  <Link to={"/ad-page"} type="primary">View Ad Group</Link>
+                  <Button onClick={() => setCurrentAdView(item.advertisement)} type="primary">
+                    View Ad Group
+                  </Button>
                 </div>
               }
               key={item.id}
@@ -73,7 +78,7 @@ const AdGroupComponent: React.FC = () => {
               <List
                 itemLayout="horizontal"
                 dataSource={item.advertisement}
-                style={{ marginTop: "20px" }}
+                style={{ marginTop: "20px"}}
                 renderItem={(ad: any, index) => (
                   <>
                     <List.Item
@@ -88,7 +93,10 @@ const AdGroupComponent: React.FC = () => {
                       <Row justify={"space-between"} style={{ width: "100%" }}>
                         <Col span={12}>
                           <Text strong>Image: </Text>
-                          <Text>{ad.image}</Text>
+                          <Image
+                            width={200}
+                            src={`http://localhost:8000/${ad.image}`}
+                          />
                         </Col>
                         <Col span={8}>
                           <Text strong>URL: </Text>

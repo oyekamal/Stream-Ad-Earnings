@@ -1,13 +1,14 @@
 import React from "react";
 import { Content } from "antd/es/layout/layout";
 import { AdContainer, ImageContainer } from "./styles";
+import { QRCode } from "antd";
 
 const Advertisement = ({ qrLink, imgLink, progress }) => {
   return (
     <Content>
       <AdContainer>
         <Content>
-          <img
+          <QRCode
             style={{
               width: "200px",
               height: "200px",
@@ -15,15 +16,15 @@ const Advertisement = ({ qrLink, imgLink, progress }) => {
               bottom: 20,
               right: 10,
               zIndex: 100,
+              background: "white"
             }}
-            src={qrLink}
-            alt="QR Code"
+            value={qrLink}
           />
         </Content>
         <ImageContainer>
           <img
             style={{ width: "100%", height: "99%" }}
-            src={imgLink}
+            src={`http://localhost:8000/${imgLink}`}
             alt="Advertisement Image"
           />
         </ImageContainer>

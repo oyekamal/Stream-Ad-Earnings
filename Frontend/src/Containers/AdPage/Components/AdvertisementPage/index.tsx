@@ -2,31 +2,40 @@ import React, { useState, useEffect } from "react";
 import { Content } from "antd/es/layout/layout";
 import Advertisement from "../../../../Components/Advertisement";
 import lowerThirdImage from "./images/lowerthird02.png";
+import image2 from "./images/fullscreen01.png";
+import image3 from "./images/fullscreen02.png";
 import { useDispatch, useSelector } from "react-redux";
 import { GetAdsGroups } from "../../../../redux/Slice/AdGroupSlice";
 
 const AdvertisementPage = () => {
   const dispatch = useDispatch();
-  const myState = useSelector(state => state.user.loginDetails.currentUserData);
-  const dataset = [
-    {
-      imageUrl:
-        "https://cdn.akamai.steamstatic.com/steam/apps/570/ss_ad8eee787704745ccdecdfde3a5cd2733704898d.1920x1080.jpg?t=1710346933",
-      qrCodeUrl:
-        "https://miro.medium.com/v2/resize:fit:1400/1*sHmqYIYMV_C3TUhucHrT4w.png",
-    },
-    {
-      imageUrl:
-        "https://cdn.akamai.steamstatic.com/steam/apps/570/ss_7ab506679d42bfc0c0e40639887176494e0466d9.1920x1080.jpg?t=1710346933",
-      qrCodeUrl:
-        "https://miro.medium.com/v2/resize:fit:1400/1*sHmqYIYMV_C3TUhucHrT4w.png",
-    },
-    {
-      imageUrl: lowerThirdImage,
-      qrCodeUrl:
-        "https://miro.medium.com/v2/resize:fit:1400/1*sHmqYIYMV_C3TUhucHrT4w.png",
-    },
-  ];
+  const myState = useSelector(
+    (state) => state.user.loginDetails.currentUserData
+  );
+  // const dataset = [
+  //   {
+  //     imageUrl: image3,
+  //     qrCodeUrl:
+  //       "https://miro.medium.com/v2/resize:fit:1400/1*sHmqYIYMV_C3TUhucHrT4w.png",
+  //   },
+  //   {
+  //     imageUrl: image2,
+  //     qrCodeUrl:
+  //       "https://miro.medium.com/v2/resize:fit:1400/1*sHmqYIYMV_C3TUhucHrT4w.png",
+  //   },
+  //   {
+  //     imageUrl: lowerThirdImage,
+  //     qrCodeUrl:
+  //       "https://miro.medium.com/v2/resize:fit:1400/1*sHmqYIYMV_C3TUhucHrT4w.png",
+  //   },
+  // ];
+
+  const current_ads = useSelector(
+    (state) => state.Ads.CurretAds.currentAdArray
+  );
+
+
+  console.log(current_ads)
 
   const [currentEntryIndex, setCurrentEntryIndex] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -34,16 +43,15 @@ const AdvertisementPage = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentEntryIndex((prevIndex) =>
-        prevIndex === dataset.length - 1 ? 0 : prevIndex + 1
+        prevIndex === current_ads.length - 1 ? 0 : prevIndex + 1
       );
       setProgress(0); // Reset progress when transitioning to a new advertisement
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [dataset]);
+  }, [current_ads]);
 
   useEffect(() => {
-
     let intervalId: any;
     if (progress < 100) {
       intervalId = setInterval(() => {
@@ -67,11 +75,13 @@ const AdvertisementPage = () => {
 
   return (
     <Content>
-      <Advertisement
-        qrLink={dataset[currentEntryIndex].qrCodeUrl}
-        imgLink={dataset[currentEntryIndex].imageUrl}
-        progress={progress}
-      />
+      {current_ads && (
+        <Advertisement
+          qrLink={current_ads[currentEntryIndex]?.url}
+          imgLink={current_ads[currentEntryIndex]?.image}
+          progress={progress}
+        />
+      )}
     </Content>
   );
 };

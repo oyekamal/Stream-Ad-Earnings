@@ -27,12 +27,17 @@ export interface AddAdsDetails {
     error: boolean;
   }
 
+  export interface CurrentAdGroup {
+    currentAdArray: [];
+  }
+
 
 export interface Adstate {
     AdsDetails: AdsDetails;
     AddAdsDetails: AddAdsDetails;
     EditAdsDetails: EditAdsDetails;
     DeleteAdsDetails: DeleteAdsDetails;
+    CurretAds: CurrentAdGroup;
 }
 
 export const initialState: Adstate = {
@@ -61,6 +66,9 @@ export const initialState: Adstate = {
         loading: false,
         error: false,
     },
+    CurretAds: {
+        currentAdArray: []
+    }
 };
 
 const AdsSlice = createSlice({
@@ -113,6 +121,10 @@ const AdsSlice = createSlice({
             state.EditAdsDetails.loading = false;
             state.EditAdsDetails.error = true;
         },
+        CurrentAd: (state, action) => {
+            const {item} = action.payload;
+            state.CurretAds.currentAdArray = item;
+        },
         // END DELETE api
     },
 });
@@ -130,6 +142,7 @@ export const {
     DeleteAds,
     DeleteAdsSuccess,
     DeleteAdsFailed,
+    CurrentAd
 } = AdsSlice.actions;
 
 export default AdsSlice.reducer;
